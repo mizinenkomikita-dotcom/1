@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="uk" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ніч у Музеї - Публічна Магічна Подія</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                        },
+                        night: {
+                            900: '#060913',
+                            800: '#0f172a',
+                            700: '#1e293b',
+                            600: '#334155'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 15px rgba(245, 158, 11, 0.2)' },
+                            '100%': { boxShadow: '0 0 30px rgba(245, 158, 11, 0.6)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #060913;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+        }
+
+        .glass-card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card-hover:hover {
+            border-color: rgba(245, 158, 11, 0.5);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px -10px rgba(245, 158, 11, 0.25);
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #b45309 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060913;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-gold-500 selection:text-night-900">
+
+    <!-- Background Stars Canvas -->
+    <canvas id="starfield"></canvas>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-night-900/80 backdrop-blur-md border-b border-gold-500/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-gold-600 to-amber-300 flex items-center justify-center text-night-900 font-bold text-xl shadow-lg shadow-gold-500/20 group-hover:rotate-12 transition-transform duration-300">
+                    <i class="fa-solid fa-moon text-lg"></i>
+                </div>
+                <div>
+                    <span class="font-cinzel font-bold text-xl tracking-wider text-white block">НІЧ У МУЗЕЇ</span>
+                    <span class="text-[10px] tracking-widest uppercase text-gold-400 font-semibold block -mt-1">Публічна Подія</span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center space-x-8 font-medium text-sm">
+                <a href="#about" class="text-slate-300 hover:text-gold-400 transition-colors">Про Подію</a>
+                <a href="#visitors" class="text-slate-300 hover:text-gold-400 transition-colors">Гості Події</a>
+                <a href="#gallery" class="text-slate-300 hover:text-gold-400 transition-colors">Зачаровані Експонати</a>
+                <a href="#schedule" class="text-slate-300 hover:text-gold-400 transition-colors">Програма</a>
+                <a href="#guestbook" class="text-slate-300 hover:text-gold-400 transition-colors">Книга Вражень</a>
+                <a href="#quest" class="text-slate-300 hover:text-gold-400 transition-colors flex items-center gap-1.5 text-amber-300">
+                    <i class="fa-solid fa-wand-magic-sparkles text-xs"></i> Міні-Квест
+                </a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <div id="user-badge-container" class="hidden flex items-center gap-3">
+                    <div class="text-right hidden sm:block">
+                        <span id="user-name-display" class="block text-sm font-semibold text-gold-400"></span>
+                        <span id="user-ticket-id" class="block text-xs text-slate-400"></span>
+                    </div>
+                    <button id="view-ticket-btn" onclick="openTicketModal()" class="px-3.5 py-2 rounded-xl bg-gold-500/20 border border-gold-500/40 text-gold-300 hover:bg-gold-500 hover:text-night-900 font-semibold text-sm transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-ticket"></i> Мій Квиток
+                    </button>
+                    <button onclick="logoutUser()" title="Вийти" class="p-2 text-slate-400 hover:text-rose-400 transition-colors">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+
+                <div id="auth-buttons-container" class="flex items-center gap-3">
+                    <button onclick="openAuthModal('login')" class="text-slate-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">
+                        Вхід
+                    </button>
+                    <button onclick="openAuthModal('register')" class="relative group px-5 py-2.5 rounded-xl font-semibold text-sm text-night-900 bg-gradient-to-r from-amber-300 via-gold-400 to-gold-600 hover:shadow-lg hover:shadow-gold-500/30 transition-all active:scale-95">
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-key"></i> Реєстрація
+                        </span>
+                    </button>
+                </div>
+
+                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white p-2">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-night-900 border-b border-gold-500/20 px-4 pt-2 pb-6 space-y-3">
+            <a href="#about" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-gold-400 py-2">Про Подію</a>
+            <a href="#visitors" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-gold-400 py-2">Гості Події</a>
+            <a href="#gallery" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-gold-400 py-2">Зачаровані Експонати</a>
+            <a href="#schedule" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-gold-400 py-2">Програма</a>
+            <a href="#guestbook" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-gold-400 py-2">Книга Вражень</a>
+            <a href="#quest" onclick="toggleMobileMenu()" class="block text-gold-400 py-2 font-semibold">Міні-Квест</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="about" class="relative pt-12 pb-20 lg:pt-20 lg:pb-28 overflow-hidden">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card text-gold-400 border border-gold-500/30 text-xs sm:text-sm font-medium animate-pulse-slow">
+                        <i class="fa-solid fa-earth-europe"></i>
+                        <span>Відкритий онлайн-доступ для всіх відвідувачів</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl font-extrabold text-white leading-tight tracking-wide font-cinzel">
+                        Коли Зали Засинають, <br class="hidden sm:inline">
+                        <span class="gold-gradient-text">Історія Оживає</span>
+                    </h1>
+
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+                        Приєднуйтесь до грандіозної культурної події. Зареєструйтесь на сайті, отримайте свій персональний цифровий квиток та діліться враженнями у спільному щоденнику!
+                    </p>
+
+                    <div class="py-4 grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 text-center">
+                        <div class="p-3 rounded-xl glass-card border-slate-700/50">
+                            <span class="block font-cinzel text-2xl font-bold text-gold-400">18 Травня</span>
+                            <span class="text-xs text-slate-400 uppercase tracking-wider">Дата Події</span>
+                        </div>
+                        <div class="p-3 rounded-xl glass-card border-slate-700/50">
+                            <span id="live-guest-count" class="block font-cinzel text-2xl font-bold text-emerald-400">0</span>
+                            <span class="text-xs text-slate-400 uppercase tracking-wider">Зареєстровано</span>
+                        </div>
+                        <div class="p-3 rounded-xl glass-card border-slate-700/50">
+                            <span class="block font-cinzel text-2xl font-bold text-gold-400">12+</span>
+                            <span class="text-xs text-slate-400 uppercase tracking-wider">Залів Експонатів</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <button onclick="openAuthModal('register')" class="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-night-900 bg-gradient-to-r from-amber-300 via-gold-400 to-gold-600 hover:shadow-xl hover:shadow-gold-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0 text-center">
+                            <i class="fa-solid fa-ticket mr-2"></i> Отримати Перепустку
+                        </button>
+                        <a href="#visitors" class="w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-slate-200 glass-card hover:bg-slate-800/80 transition-all border border-slate-700 text-center">
+                            Переглянути Гостей
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-gold-500 to-amber-600 rounded-3xl blur-xl opacity-40 animate-pulse-slow"></div>
+                        <div class="relative rounded-2xl overflow-hidden glass-card p-3 border border-gold-500/30 shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Музей уночі" 
+                                 class="w-full h-96 object-cover rounded-xl transform transition-transform duration-700 hover:scale-105"
+                                 onerror="this.src='https://placehold.co/600x800/0f172a/f59e0b?text=Ніч+у+Музеї'">
+                            
+                            <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl glass-card bg-night-900/90 border border-gold-500/30 backdrop-blur-md">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-cinzel text-sm font-bold text-white">Головна Зала Стародавності</h4>
+                                        <p class="text-xs text-gold-400">Живе підключення відвідувачів</p>
+                                    </div>
+                                    <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PUBLIC VISITORS SECTION -->
+    <section id="visitors" class="py-16 bg-night-900/60 border-t border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-gold-400 font-semibold tracking-widest uppercase text-xs">Жива спільнота</span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-cinzel text-white mt-2">Зареєстровані Гості Ночі</h2>
+                <p class="text-slate-400 text-sm mt-2">
+                    Список шанувальників історії та мистецтва, які вже забронювали перепустку на подію.
+                </p>
+            </div>
+
+            <div id="public-visitors-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="col-span-full text-center py-8 text-slate-500 text-sm">
+                    <i class="fa-solid fa-spinner animate-spin text-gold-400 mr-2"></i> Завантаження списку гостей...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXHIBITS GALLERY SECTION -->
+    <section id="gallery" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-gold-400 font-semibold tracking-widest uppercase text-xs">Ексклюзивна колекція</span>
+                <h2 class="text-3xl sm:text-5xl font-bold font-cinzel text-white mt-2">Зачаровані Експонати</h2>
+                <p class="text-slate-400 mt-4 text-sm sm:text-base">
+                    Обирайте категорію та натискайте на реліквії для перегляду таємної історії.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-10">
+                <button onclick="filterGallery('all')" class="filter-btn active px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-card border border-gold-500 text-gold-400 transition-all">
+                    Усі Експонати
+                </button>
+                <button onclick="filterGallery('sculpture')" class="filter-btn px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-card border border-slate-700 text-slate-300 hover:border-gold-500 hover:text-gold-400 transition-all">
+                    Скульптури
+                </button>
+                <button onclick="filterGallery('painting')" class="filter-btn px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-card border border-slate-700 text-slate-300 hover:border-gold-500 hover:text-gold-400 transition-all">
+                    Картини
+                </button>
+                <button onclick="filterGallery('relic')" class="filter-btn px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-card border border-slate-700 text-slate-300 hover:border-gold-500 hover:text-gold-400 transition-all">
+                    Стародавні Реліквії
+                </button>
+            </div>
+
+            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+        </div>
+    </section>
+
+    <!-- SCHEDULE SECTION -->
+    <section id="schedule" class="py-20 bg-night-900/40 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-gold-400 font-semibold tracking-widest uppercase text-xs">Нічна Навігація</span>
+                <h2 class="text-3xl sm:text-5xl font-bold font-cinzel text-white mt-2">Програма Таємничої Ночі</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="glass-card glass-card-hover rounded-2xl p-6 relative overflow-hidden group">
+                    <div class="text-gold-400 text-sm font-bold tracking-widest mb-2 flex items-center gap-2">
+                        <i class="fa-regular fa-clock"></i> 20:30 - 21:30
+                    </div>
+                    <h3 class="font-cinzel text-xl font-bold text-white mb-3 group-hover:text-gold-300 transition-colors">
+                        Екскурсія зі Смолоскипами
+                    </h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Подорож найстаршими підземеллями музею у повній темряві за сприяння живого вогню та історика-екскурсовода.
+                    </p>
+                    <div class="flex items-center justify-between text-xs text-slate-500 pt-4 border-t border-slate-800">
+                        <span><i class="fa-solid fa-location-dot mr-1"></i> Нижній Ярус</span>
+                        <span class="text-gold-400/80">Включено в квиток</span>
+                    </div>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6 relative overflow-hidden group border-gold-500/40">
+                    <div class="absolute -top-3 -right-3 bg-gold-500 text-night-900 text-[10px] uppercase font-extrabold px-3 py-1.5 rounded-bl-xl tracking-widest">
+                        Головне Шоу
+                    </div>
+                    <div class="text-gold-400 text-sm font-bold tracking-widest mb-2 flex items-center gap-2">
+                        <i class="fa-regular fa-clock"></i> 22:00 - 23:15
+                    </div>
+                    <h3 class="font-cinzel text-xl font-bold text-white mb-3 group-hover:text-gold-300 transition-colors">
+                        Ожила Полотна: 3D Mapping
+                    </h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Світлові проекції шедеврів світового живопису на фасад та купол барокової зали під акомпанемент скрипки.
+                    </p>
+                    <div class="flex items-center justify-between text-xs text-slate-500 pt-4 border-t border-slate-800">
+                        <span><i class="fa-solid fa-location-dot mr-1"></i> Купольна Зала</span>
+                        <span class="text-gold-400 font-semibold">Обов'язковий візит</span>
+                    </div>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6 relative overflow-hidden group">
+                    <div class="text-gold-400 text-sm font-bold tracking-widest mb-2 flex items-center gap-2">
+                        <i class="fa-regular fa-clock"></i> 00:00 - 02:00
+                    </div>
+                    <h3 class="font-cinzel text-xl font-bold text-white mb-3 group-hover:text-gold-300 transition-colors">
+                        Нічна Лабораторія Реставратора
+                    </h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Спробуйте себе у ролі майстра-реставратора: розгадування древніх шифрів, робота з ультрафіолетом та мікроскопами.
+                    </p>
+                    <div class="flex items-center justify-between text-xs text-slate-500 pt-4 border-t border-slate-800">
+                        <span><i class="fa-solid fa-location-dot mr-1"></i> Секретна Майстерня</span>
+                        <span class="text-gold-400/80">Вільний вхід</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PUBLIC GUESTBOOK SECTION -->
+    <section id="guestbook" class="py-20 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-6 sm:p-10 relative overflow-hidden border border-gold-500/30">
+                <div class="text-center max-w-xl mx-auto mb-8">
+                    <span class="px-3 py-1 rounded-full bg-gold-500/10 text-gold-400 text-xs font-semibold tracking-wider uppercase border border-gold-500/20">
+                        Онлайн-Щоденник
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl font-bold font-cinzel text-white mt-3">Книга Нічних Вражень</h2>
+                    <p class="text-slate-400 text-sm mt-2">
+                        Залиште своє побажання або враження, яке бачитимуть усі відвідувачі в реальному часі.
+                    </p>
+                </div>
+
+                <!-- Form to add comment -->
+                <form onsubmit="handleGuestbookSubmit(event)" class="space-y-4 mb-8 bg-night-900/80 p-4 rounded-2xl border border-slate-700">
+                    <div>
+                        <input type="text" id="gb-author" placeholder="Ваше ім'я або псевдонім" required class="w-full px-4 py-2.5 rounded-xl bg-night-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-gold-500 text-sm">
+                    </div>
+                    <div>
+                        <textarea id="gb-text" rows="3" placeholder="Напишіть ваші очікування або враження..." required class="w-full px-4 py-2.5 rounded-xl bg-night-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-gold-500 text-sm"></textarea>
+                    </div>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl font-bold text-night-900 bg-gold-500 hover:bg-gold-400 transition-all text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Опублікувати у Книзі
+                    </button>
+                </form>
+
+                <!-- Dynamic public comments stream -->
+                <div id="public-guestbook-messages" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                    <div class="text-center py-6 text-slate-500 text-sm">
+                        Завантаження повідомлень...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE QUEST SECTION -->
+    <section id="quest" class="py-20 bg-gradient-to-b from-night-900 via-night-800 to-night-900 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden border border-gold-500/30">
+                <i class="fa-solid fa-compass-drafting text-9xl text-gold-500/5 absolute -right-10 -bottom-10 pointer-events-none"></i>
+
+                <div class="text-center max-w-xl mx-auto mb-8">
+                    <span class="px-3 py-1 rounded-full bg-gold-500/10 text-gold-400 text-xs font-semibold tracking-wider uppercase border border-gold-500/20">
+                        Інтерактивна Гра
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl font-bold font-cinzel text-white mt-3">Загадки Нічного Охоронця</h2>
+                    <p class="text-slate-400 text-sm mt-2">
+                        Дайте відповідь на 3 запитання, щоб отримати віртуальний статус "Страж Музею" та особливий значок у ваш квиток!
+                    </p>
+                </div>
+
+                <div id="quest-container" class="space-y-6">
+                    <div id="quiz-card" class="bg-night-900/80 rounded-2xl p-6 border border-slate-700">
+                        <div class="flex justify-between items-center mb-4">
+                            <span id="quiz-progress" class="text-xs text-gold-400 font-semibold tracking-wider">ПИТАННЯ 1 з 3</span>
+                            <span class="text-xs text-slate-500"><i class="fa-solid fa-trophy text-amber-400"></i> Нагорода: Значок Хранителя</span>
+                        </div>
+                        <h3 id="quiz-question" class="text-lg font-semibold text-white mb-6">
+                            Завантаження питання...
+                        </h3>
+                        <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        </div>
+                    </div>
+
+                    <div id="quiz-result" class="hidden text-center py-6 space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-gold-500/20 text-gold-400 mx-auto flex items-center justify-center text-3xl border border-gold-500/40">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold font-cinzel text-white">Вітаємо! Ви здобули Ключ Охоронця!</h3>
+                        <p class="text-slate-300 text-sm max-w-md mx-auto">
+                            Ви успішно пройшли випробування знань. Ваш статус автоматично додано до вашого квитка.
+                        </p>
+                        <button onclick="resetQuest()" class="px-6 py-2.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 text-sm font-semibold transition-all">
+                            Пройти знову
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-night-900 border-t border-slate-800 text-slate-400 py-12 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="space-y-3 md:col-span-1">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-gold-500 flex items-center justify-center text-night-900 font-bold">
+                            <i class="fa-solid fa-moon"></i>
+                        </div>
+                        <span class="font-cinzel font-bold text-lg text-white">НІЧ У МУЗЕЇ</span>
+                    </div>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Культурно-мистецька подія року. Запрошуємо вас розкрити нічні таємниці стародавніх шедеврів.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-cinzel text-white font-semibold mb-3">Локація</h4>
+                    <p class="text-xs text-slate-400">вул. Музейна, 12, Київ</p>
+                    <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-phone mr-1"></i> +380 (44) 123-45-67</p>
+                    <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-envelope mr-1"></i> night@museum-art.ua</p>
+                </div>
+
+                <div>
+                    <h4 class="font-cinzel text-white font-semibold mb-3">Швидкі Посилання</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#about" class="hover:text-gold-400 transition-colors">Про Захід</a></li>
+                        <li><a href="#visitors" class="hover:text-gold-400 transition-colors">Гості Події</a></li>
+                        <li><a href="#gallery" class="hover:text-gold-400 transition-colors">Експонати</a></li>
+                        <li><a href="#guestbook" class="hover:text-gold-400 transition-colors">Книга Вражень</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-cinzel text-white font-semibold mb-3">Соціальні Мережі</h4>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-9 h-9 rounded-xl glass-card flex items-center justify-center hover:text-gold-400 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-xl glass-card flex items-center justify-center hover:text-gold-400 transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-xl glass-card flex items-center justify-center hover:text-gold-400 transition-colors"><i class="fa-brands fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-slate-800/80 text-center text-xs text-slate-600 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p>© 2026 Ніч у Музеї. Публічний доступ активний.</p>
+                <p>Розроблено спеціально для поціновувачів мистецтва та таємниць.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AUTHENTICATION MODAL -->
+    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden transition-opacity duration-300">
+        <div class="glass-card rounded-3xl w-full max-w-md p-6 sm:p-8 relative border border-gold-500/30 shadow-2xl animate-glow">
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-full bg-gold-500/20 border border-gold-500/40 text-gold-400 mx-auto flex items-center justify-center text-xl mb-3">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h3 id="modal-title" class="text-2xl font-bold font-cinzel text-white">Реєстрація на Ніч у Музеї</h3>
+                <p id="modal-subtitle" class="text-xs text-slate-400 mt-1">Отримайте свій віртуальний перепустку та доступ до залів</p>
+            </div>
+
+            <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <div id="field-name-group">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Повне Ім'я та Прізвище (Українською)</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
+                        <input type="text" id="auth-name" placeholder="Олександр Коваль" class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-night-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-gold-500 text-sm transition-colors">
+                    </div>
+                    <p id="name-error-msg" class="hidden text-xs text-rose-400 mt-1.5 flex items-start gap-1 font-medium">
+                        <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+                        <span>Введіть ім'я та прізвище українською мовою (наприклад: Олександр Коваль)</span>
+                    </p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Електронна Пошта</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
+                        <input type="email" id="auth-email" required placeholder="example@mail.com" class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-night-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-gold-500 text-sm transition-colors">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Пароль</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
+                        <input type="password" id="auth-password" required placeholder="••••••••" class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-night-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-gold-500 text-sm transition-colors">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3.5 top-3 text-slate-400 hover:text-gold-400 focus:outline-none" title="Показати/приховати пароль">
+                            <i id="password-toggle-icon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="field-ticket-type">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Категорія Відвідувача</label>
+                    <select id="auth-ticket-tier" class="w-full px-4 py-2.5 rounded-xl bg-night-900 border border-slate-700 text-white focus:outline-none focus:border-gold-500 text-sm transition-colors">
+                        <option value="Стандартний Дослідник">Стандартний Дослідник (Безкоштовно)</option>
+                        <option value="VIP Шукач Таємниць">VIP Шукач Таємниць (Персональний гід)</option>
+                        <option value="Нічний Охоронець">Нічний Охоронець (Доступ до закритих фондів)</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="auth-submit-btn" class="w-full py-3 rounded-xl font-bold text-night-900 bg-gradient-to-r from-amber-300 via-gold-400 to-gold-600 hover:shadow-lg hover:shadow-gold-500/30 transition-all text-sm mt-2">
+                    Зареєструватися
+                </button>
+            </form>
+
+            <div class="text-center mt-5 pt-4 border-t border-slate-800 text-xs text-slate-400">
+                <span id="auth-toggle-text">Вже маєте обліковий запис?</span>
+                <button type="button" onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-gold-400 font-semibold hover:underline ml-1">
+                    Увійти
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIRTUAL TICKET MODAL -->
+    <div id="ticket-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+        <div class="w-full max-w-md relative">
+            <button onclick="closeTicketModal()" class="absolute -top-10 right-0 text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+
+            <div id="ticket-pass-card" class="rounded-3xl overflow-hidden bg-gradient-to-b from-slate-900 via-night-900 to-slate-950 border-2 border-gold-500/50 shadow-2xl relative p-6 sm:p-8">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-gold-500/10 rounded-bl-full pointer-events-none"></div>
+
+                <div class="flex items-center justify-between border-b border-gold-500/20 pb-4 mb-6">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-gold-500 flex items-center justify-center text-night-900 font-bold text-sm">
+                            <i class="fa-solid fa-moon"></i>
+                        </div>
+                        <div>
+                            <span class="font-cinzel font-bold text-white text-sm block">НІЧ У МУЗЕЇ</span>
+                            <span class="text-[9px] uppercase tracking-widest text-gold-400 block">Офіційний Нічний Перепустку</span>
+                        </div>
+                    </div>
+                    <span id="ticket-tier-badge" class="px-2.5 py-1 rounded-md bg-gold-500/20 text-gold-300 text-[10px] font-bold uppercase tracking-wider border border-gold-500/30">
+                        VIP
+                    </span>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-[10px] uppercase tracking-wider text-slate-500 block">Власник Квитка</span>
+                        <h4 id="ticket-user-name" class="font-cinzel text-xl font-bold text-white">Олександр Коваль</h4>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 bg-night-800/80 p-3 rounded-xl border border-slate-800">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-wider text-slate-500 block">Дата та Час</span>
+                            <span class="text-xs font-semibold text-slate-200">18 Травня, 20:00</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] uppercase tracking-wider text-slate-500 block">Код Доступу</span>
+                            <span id="ticket-code-display" class="text-xs font-mono font-bold text-gold-400">#NIGHT-8829</span>
+                        </div>
+                    </div>
+
+                    <div id="ticket-quest-status" class="hidden flex items-center gap-2 text-xs text-emerald-400 bg-emerald-950/40 border border-emerald-800/50 p-2.5 rounded-lg">
+                        <i class="fa-solid fa-shield-halved text-base"></i>
+                        <span>Статус: <b>Страж Музею (Квест Пройдено)</b></span>
+                    </div>
+
+                    <div class="pt-4 flex flex-col items-center justify-center">
+                        <div class="w-32 h-32 bg-white p-2 rounded-xl flex items-center justify-center shadow-inner">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NightAtMuseumTicketValid2026" alt="QR Code" class="w-full h-full object-contain">
+                        </div>
+                        <span class="text-[10px] text-slate-500 mt-2">Пред'явіть на екрані при вході</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXHIBIT LIGHTBOX MODAL -->
+    <div id="exhibit-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden">
+        <div class="glass-card rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative border border-gold-500/30">
+            <button onclick="closeExhibitModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 z-10">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            <div id="exhibit-modal-content" class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            </div>
+        </div>
+    </div>
+
+    <!-- FIREBASE & CLOUD SYNC LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'museum-night-public-app';
+        let db = null;
+        let auth = null;
+        let authUser = null;
+
+        if (typeof __firebase_config !== 'undefined') {
+            try {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+            } catch (e) {
+                console.warn("Firebase initialization notice:", e);
+            }
+        }
+
+        async function initAuth() {
+            if (!auth) return;
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    const cred = await signInWithCustomToken(auth, __initial_auth_token);
+                    authUser = cred.user;
+                } else {
+                    const cred = await signInAnonymously(auth);
+                    authUser = cred.user;
+                }
+                subscribeToPublicSync();
+            } catch (e) {
+                console.error("Auth initialization failed:", e);
+            }
+        }
+
+        function subscribeToPublicSync() {
+            if (!db || !authUser) return;
+
+            // Stream public registrations
+            const regCol = collection(db, 'artifacts', appId, 'public', 'data', 'registrations');
+            onSnapshot(regCol, (snapshot) => {
+                const list = [];
+                snapshot.forEach(doc => {
+                    list.push({ id: doc.id, ...doc.data() });
+                });
+                if (window.renderPublicRegistrations) {
+                    window.renderPublicRegistrations(list);
+                }
+            }, (err) => console.error("Registration sync error:", err));
+
+            // Stream public guestbook
+            const gbCol = collection(db, 'artifacts', appId, 'public', 'data', 'guestbook');
+            onSnapshot(gbCol, (snapshot) => {
+                const messages = [];
+                snapshot.forEach(doc => {
+                    messages.push({ id: doc.id, ...doc.data() });
+                });
+                if (window.renderPublicGuestbook) {
+                    window.renderPublicGuestbook(messages);
+                }
+            }, (err) => console.error("Guestbook sync error:", err));
+        }
+
+        window.publishRegistrationToCloud = async function(userData) {
+            if (!db || !authUser) return;
+            try {
+                const regCol = collection(db, 'artifacts', appId, 'public', 'data', 'registrations');
+                await addDoc(regCol, {
+                    name: userData.name,
+                    tier: userData.tier,
+                    ticketCode: userData.ticketCode,
+                    createdAt: new Date().toISOString()
+                });
+            } catch (e) {
+                console.error("Error publishing registration:", e);
+            }
+        };
+
+        window.publishGuestbookToCloud = async function(authorName, text) {
+            if (!db || !authUser) return false;
+            try {
+                const gbCol = collection(db, 'artifacts', appId, 'public', 'data', 'guestbook');
+                await addDoc(gbCol, {
+                    author: authorName,
+                    text: text,
+                    createdAt: new Date().toISOString()
+                });
+                return true;
+            } catch (e) {
+                console.error("Error publishing guestbook message:", e);
+                return false;
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initAuth();
+        });
+    </script>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        // Starfield Canvas Animation
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((canvas.width * canvas.height) / 10000);
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.8 + 0.2,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.02 + 0.005
+                });
+            }
+        }
+
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+                ctx.fillStyle = `rgba(245, 158, 11, ${Math.abs(star.alpha) * 0.6})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        animateStars();
+
+        // Exhibits Data
+        const exhibitsData = [
+            {
+                id: 1,
+                title: "Золота Маска Фараона",
+                category: "relic",
+                image: "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=800&q=80",
+                shortDesc: "Символ безсмертя з давньоєгипетської усипальниці.",
+                fullDesc: "Виготовлена з чистого золота з інкрустацією лазуриту. За легендами, у нічний час під впливом місячного світла маска випромінює ледь помітне тепле сяйво.",
+                era: "1332 до н.е."
+            },
+            {
+                id: 2,
+                title: "Скульптура Крилатої Ніки",
+                category: "sculpture",
+                image: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?auto=format&fit=crop&w=800&q=80",
+                shortDesc: "Мармурове втілення перемоги та грації.",
+                fullDesc: "Антична мармурова статуя, знайдена на острові Самотракія. У нічній тиші зали створюється ілюзія, що крила скульптури тихо здригаються від подиху вітру.",
+                era: "II ст. до н.е."
+            },
+            {
+                id: 3,
+                title: "Таємничий Портрет Леді",
+                category: "painting",
+                image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80",
+                shortDesc: "Загадкова посмішка Ренесансу.",
+                fullDesc: "Олійний живопис на полотні. При зміні кута освітлення під час нічних екскурсій вираз обличчя на портреті змінюється від суворого до милосердного.",
+                era: "1510 р."
+            },
+            {
+                id: 4,
+                title: "Астролябія Зоряного Ордену",
+                category: "relic",
+                image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
+                shortDesc: "Прилад середньовічних астрономів та алхіміків.",
+                fullDesc: "Бронзовий астрономічний інструмент високої точності. Використовувався для передбачення затемнень та навігації у відкритому морі.",
+                era: "XIV століття"
+            },
+            {
+                id: 5,
+                title: "Бюст Римського Імператора",
+                category: "sculpture",
+                image: "https://images.unsplash.com/photo-1561839561-b13bcfe95249?auto=format&fit=crop&w=800&q=80",
+                shortDesc: "Висічений з білосніжного карарського мармуру.",
+                fullDesc: "Виразне обличчя правителя відображає мудрість та суворість епохи. Вночі при світлі смолоскипів тіні на обличчі надають йому дивовижної живості.",
+                era: "I ст. н.е."
+            },
+            {
+                id: 6,
+                title: "Фоліант Невідомого Алхіміка",
+                category: "relic",
+                image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
+                shortDesc: "Рукопис із зашифрованими малюнками.",
+                fullDesc: "Пергаментна книга в шкіряній палітурці з золотим тисненням. Написана нерозшифрованою мовою із зображеннями фантастичних рослин та сузір'їв.",
+                era: "1450 р."
+            }
+        ];
+
+        function renderGallery(items) {
+            const container = document.getElementById('gallery-grid');
+            if (!container) return;
+            container.innerHTML = items.map(item => `
+                <div class="glass-card glass-card-hover rounded-2xl overflow-hidden group cursor-pointer" onclick="openExhibitModal(${item.id})">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://placehold.co/600x400/0f172a/f59e0b?text=${encodeURIComponent(item.title)}'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-night-900 via-transparent to-transparent opacity-80"></div>
+                        <span class="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-night-900/80 text-gold-400 border border-gold-500/30">
+                            ${item.era}
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-cinzel text-lg font-bold text-white group-hover:text-gold-400 transition-colors">${item.title}</h3>
+                        <p class="text-slate-400 text-xs mt-2 leading-relaxed">${item.shortDesc}</p>
+                        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-gold-400 font-medium">
+                            <span>Розкрити таємницю</span>
+                            <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterGallery(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-gold-500', 'text-gold-400');
+                btn.classList.add('border-slate-700', 'text-slate-300');
+            });
+            if (event && event.target) {
+                event.target.classList.add('active', 'border-gold-500', 'text-gold-400');
+            }
+            
+            if (category === 'all') {
+                renderGallery(exhibitsData);
+            } else {
+                const filtered = exhibitsData.filter(item => item.category === category);
+                renderGallery(filtered);
+            }
+        }
+
+        function openExhibitModal(id) {
+            const item = exhibitsData.find(e => e.id === id);
+            if (!item) return;
+            const content = document.getElementById('exhibit-modal-content');
+            content.innerHTML = `
+                <div class="rounded-2xl overflow-hidden h-72 md:h-full">
+                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                </div>
+                <div class="space-y-4">
+                    <span class="text-xs font-bold text-gold-400 tracking-widest uppercase">${item.era}</span>
+                    <h3 class="font-cinzel text-2xl font-bold text-white">${item.title}</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">${item.fullDesc}</p>
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+                        <span class="text-xs text-slate-500"><i class="fa-solid fa-eye text-gold-400 mr-1"></i> Доступний для огляду</span>
+                        <button onclick="closeExhibitModal()" class="px-4 py-2 rounded-xl bg-gold-500 text-night-900 font-bold text-xs hover:bg-gold-400">
+                            Закрити
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('exhibit-modal').classList.remove('hidden');
+        }
+
+        function closeExhibitModal() {
+            document.getElementById('exhibit-modal').classList.add('hidden');
+        }
+
+        // Auth & User Management
+        let currentUser = null;
+        let isAuthModeLogin = false;
+
+        function openAuthModal(mode = 'register') {
+            isAuthModeLogin = (mode === 'login');
+            updateAuthModalUI();
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+
+        function toggleAuthMode() {
+            isAuthModeLogin = !isAuthModeLogin;
+            updateAuthModalUI();
+        }
+
+        function updateAuthModalUI() {
+            const modalTitle = document.getElementById('modal-title');
+            const modalSubtitle = document.getElementById('modal-subtitle');
+            const fieldNameGroup = document.getElementById('field-name-group');
+            const fieldTicketType = document.getElementById('field-ticket-type');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const toggleText = document.getElementById('auth-toggle-text');
+            const toggleBtn = document.getElementById('auth-toggle-btn');
+            const nameErrEl = document.getElementById('name-error-msg');
+
+            if (nameErrEl) nameErrEl.classList.add('hidden');
+
+            if (isAuthModeLogin) {
+                modalTitle.innerText = "Вхід до Музейного Кабінету";
+                modalSubtitle.innerText = "Введіть свої дані для перегляду замовленого квитка";
+                fieldNameGroup.classList.add('hidden');
+                fieldTicketType.classList.add('hidden');
+                submitBtn.innerText = "Увійти";
+                toggleText.innerText = "Ще не маєте квитка?";
+                toggleBtn.innerText = "Зареєструватися";
+            } else {
+                modalTitle.innerText = "Реєстрація на Ніч у Музеї";
+                modalSubtitle.innerText = "Отримайте свій віртуальний перепустку та доступ до нічних залів";
+                fieldNameGroup.classList.remove('hidden');
+                fieldTicketType.classList.remove('hidden');
+                submitBtn.innerText = "Зареєструватися";
+                toggleText.innerText = "Вже маєте обліковий запис?";
+                toggleBtn.innerText = "Увійти";
+            }
+        }
+
+        // Validate Ukrainian Full Name
+        function isValidFullName(str) {
+            if (!str) return false;
+            const trimmed = str.trim();
+            const parts = trimmed.split(/\s+/);
+            if (parts.length < 2) return false;
+
+            const ukrNamePartRegex = /^[А-Яа-яЄєІіЇїҐґ'’-]{2,}$/;
+            const ukrVowelRegex = /[аеєиіїоуюяАЕЄИІЇОУЮЯ]/;
+
+            for (let part of parts) {
+                if (!ukrNamePartRegex.test(part)) return false;
+                if (!ukrVowelRegex.test(part)) return false;
+            }
+
+            return true;
+        }
+
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('auth-password');
+            const icon = document.getElementById('password-toggle-icon');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        async function handleAuthSubmit(event) {
+            event.preventDefault();
+
+            const nameErrEl = document.getElementById('name-error-msg');
+            if (nameErrEl) nameErrEl.classList.add('hidden');
+
+            const email = document.getElementById('auth-email').value;
+            let name = "";
+
+            if (!isAuthModeLogin) {
+                const nameInputVal = document.getElementById('auth-name').value;
+                
+                if (!isValidFullName(nameInputVal)) {
+                    if (nameErrEl) nameErrEl.classList.remove('hidden');
+                    document.getElementById('auth-name').focus();
+                    return;
+                }
+
+                name = nameInputVal.trim().split(/\s+/).map(word => 
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                ).join(' ');
+            } else {
+                name = email.split('@')[0];
+            }
+
+            const tierSelect = document.getElementById('auth-ticket-tier');
+            const tier = (tierSelect && tierSelect.value) ? tierSelect.value : "Стандартний Дослідник";
+            const ticketCode = "#NIGHT-" + Math.floor(1000 + Math.random() * 9000);
+
+            currentUser = {
+                name: name,
+                email: email,
+                tier: tier,
+                ticketCode: ticketCode,
+                questCompleted: false
+            };
+
+            sessionStorage.setItem('museum_user', JSON.stringify(currentUser));
+            updateUserUI();
+            closeAuthModal();
+
+            // Publish registration publicly to real-time database
+            if (window.publishRegistrationToCloud && !isAuthModeLogin) {
+                await window.publishRegistrationToCloud(currentUser);
+            }
+
+            openTicketModal();
+        }
+
+        function updateUserUI() {
+            const badgeContainer = document.getElementById('user-badge-container');
+            const authButtonsContainer = document.getElementById('auth-buttons-container');
+            const userNameDisplay = document.getElementById('user-name-display');
+            const userTicketId = document.getElementById('user-ticket-id');
+
+            if (currentUser) {
+                badgeContainer.classList.remove('hidden');
+                badgeContainer.classList.add('flex');
+                authButtonsContainer.classList.add('hidden');
+                userNameDisplay.innerText = currentUser.name;
+                userTicketId.innerText = currentUser.ticketCode;
+
+                document.getElementById('ticket-user-name').innerText = currentUser.name;
+                document.getElementById('ticket-tier-badge').innerText = currentUser.tier;
+                document.getElementById('ticket-code-display').innerText = currentUser.ticketCode;
+
+                if (currentUser.questCompleted) {
+                    document.getElementById('ticket-quest-status').classList.remove('hidden');
+                }
+            } else {
+                badgeContainer.classList.add('hidden');
+                badgeContainer.classList.remove('flex');
+                authButtonsContainer.classList.remove('hidden');
+            }
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            sessionStorage.removeItem('museum_user');
+            updateUserUI();
+        }
+
+        function openTicketModal() {
+            if (!currentUser) {
+                openAuthModal('register');
+                return;
+            }
+            document.getElementById('ticket-modal').classList.remove('hidden');
+        }
+
+        function closeTicketModal() {
+            document.getElementById('ticket-modal').classList.add('hidden');
+        }
+
+        // Public Registrations Render
+        window.renderPublicRegistrations = function(list) {
+            const container = document.getElementById('public-visitors-list');
+            const counter = document.getElementById('live-guest-count');
+            
+            if (counter) counter.innerText = list.length;
+            if (!container) return;
+
+            if (list.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-6 text-slate-500 text-sm">Будьте першим, хто зареєструється!</div>`;
+                return;
+            }
+
+            // Sort newest first
+            const sorted = [...list].sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+            container.innerHTML = sorted.map(visitor => `
+                <div class="glass-card p-3.5 rounded-xl flex items-center gap-3 border border-slate-800">
+                    <div class="w-10 h-10 rounded-full bg-gold-500/20 text-gold-400 border border-gold-500/30 flex items-center justify-center font-bold text-sm shrink-0">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <h4 class="text-sm font-semibold text-white truncate">${visitor.name || 'Анонімний Гость'}</h4>
+                        <span class="text-[10px] text-gold-400 block truncate">${visitor.tier || 'Гость'} • ${visitor.ticketCode || '#NIGHT'}</span>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        // Guestbook Submit & Render
+        async function handleGuestbookSubmit(event) {
+            event.preventDefault();
+            const authorInput = document.getElementById('gb-author');
+            const textInput = document.getElementById('gb-text');
+
+            const author = authorInput.value.trim();
+            const text = textInput.value.trim();
+
+            if (!author || !text) return;
+
+            if (window.publishGuestbookToCloud) {
+                const ok = await window.publishGuestbookToCloud(author, text);
+                if (ok) {
+                    textInput.value = '';
+                }
+            }
+        }
+
+        window.renderPublicGuestbook = function(messages) {
+            const container = document.getElementById('public-guestbook-messages');
+            if (!container) return;
+
+            if (messages.length === 0) {
+                container.innerHTML = `<div class="text-center py-6 text-slate-500 text-sm">Поки що немає відгуків. Залиште свій першим!</div>`;
+                return;
+            }
+
+            const sorted = [...messages].sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+            container.innerHTML = sorted.map(msg => `
+                <div class="bg-night-900/90 p-3.5 rounded-xl border border-slate-800 text-xs space-y-1">
+                    <div class="flex items-center justify-between text-slate-400">
+                        <span class="font-bold text-gold-400">${msg.author}</span>
+                        <span class="text-[10px] text-slate-500">${msg.createdAt ? new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : ''}</span>
+                    </div>
+                    <p class="text-slate-200 leading-relaxed">${msg.text}</p>
+                </div>
+            `).join('');
+        };
+
+        // Quest Data & Mechanics
+        const questData = [
+            {
+                q: "Який експонат за переказами випромінює сяйво у місячному світлі?",
+                options: ["Бюст Імператора", "Золота Маска Фараона", "Астролябія"],
+                answer: 1
+            },
+            {
+                q: "О котрій годині розпочинається світлове шоу 3D Mapping у Купольній Залі?",
+                options: ["20:30", "22:00", "00:00"],
+                answer: 1
+            },
+            {
+                q: "Що рекомендують взяти для екскурсії Нижнім Ярусом?",
+                options: ["Смолоскип або ліхтарик", "Карту сузір'їв", "Компас"],
+                answer: 0
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+
+        function renderQuest() {
+            if (currentQuestionIdx >= questData.length) {
+                document.getElementById('quiz-card').classList.add('hidden');
+                document.getElementById('quiz-result').classList.remove('hidden');
+                if (currentUser) {
+                    currentUser.questCompleted = true;
+                    sessionStorage.setItem('museum_user', JSON.stringify(currentUser));
+                    updateUserUI();
+                }
+                return;
+            }
+
+            const current = questData[currentQuestionIdx];
+            document.getElementById('quiz-progress').innerText = `ПИТАННЯ ${currentQuestionIdx + 1} з ${questData.length}`;
+            document.getElementById('quiz-question').innerText = current.q;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = current.options.map((opt, idx) => `
+                <button onclick="checkAnswer(${idx})" class="p-3.5 rounded-xl bg-night-800 border border-slate-700 hover:border-gold-500 text-slate-200 text-sm font-medium text-left transition-all hover:bg-slate-800 flex items-center justify-between">
+                    <span>${opt}</span>
+                    <i class="fa-regular fa-circle text-slate-500"></i>
+                </button>
+            `).join('');
+        }
+
+        function checkAnswer(selectedIdx) {
+            const current = questData[currentQuestionIdx];
+            if (selectedIdx === current.answer) {
+                currentQuestionIdx++;
+                renderQuest();
+            } else {
+                const options = document.getElementById('quiz-options').children;
+                if (options[selectedIdx]) {
+                    options[selectedIdx].classList.add('border-rose-500', 'text-rose-300');
+                }
+            }
+        }
+
+        function resetQuest() {
+            currentQuestionIdx = 0;
+            document.getElementById('quiz-card').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            renderQuest();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        window.onload = function() {
+            renderGallery(exhibitsData);
+            renderQuest();
+
+            const savedUser = sessionStorage.getItem('museum_user');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    updateUserUI();
+                } catch(e) {}
+            }
+        };
+    </script>
+</body>
+</html>
